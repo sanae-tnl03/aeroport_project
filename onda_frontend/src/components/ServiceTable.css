@@ -1,0 +1,55 @@
+.table-container {
+  margin: 40px auto;
+  max-width: 900px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.service-table th,
+.service-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.service-table th {
+  background-color: #002366;
+  color: white;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: red;
+  font-weight: bold;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background-color: #ff6b00;
+  color: white;
+}
+
+.btn-delete {
+  background-color: crimson;
+  color: white;
+}

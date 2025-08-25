@@ -1,0 +1,40 @@
+.form-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.service-form label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.service-form input,
+.service-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.service-form button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #002366;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.service-form button:hover {
+  background-color: #001b4d;
+}

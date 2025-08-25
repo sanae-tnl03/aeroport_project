@@ -1,0 +1,77 @@
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* ou ajuster selon besoin */
+  margin-top: 20px;
+}
+
+.logo {
+  width: 300px;
+  height: auto;
+}
+
+
+header {
+  display: flex;
+  flex-direction: column; /* ✅ mettre en colonne */
+  align-items: center;     /* ✅ centrer horizontalement */
+  background-color: #002366;
+  color: white;
+  padding: 15px;
+  gap: 20px;
+}
+
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 30px;
+  gap: 20px;
+}
+
+.service-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.service-card:hover {
+  transform: scale(1.05);
+}
+
+.service-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: red;
+  font-weight: bold;
+}
+
+.add-button {
+  display: block;
+  margin: 30px auto;
+  padding: 15px 25px;
+  font-size: 16px;
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #e05d00;
+}
