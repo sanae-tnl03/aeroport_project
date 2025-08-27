@@ -1,52 +1,369 @@
 .details-container {
-  max-width: 800px;
-  margin: 40px auto;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 20px;
-  text-align: center;
 }
 
-.equipment-list {
+/* Loading et erreurs */
+.loading {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 18px;
+  color: #666;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
   gap: 20px;
-  margin-top: 30px;
+}
+
+.error-message {
+  background: #fee;
+  color: #d63384;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #d63384;
+  text-align: center;
+  max-width: 500px;
+}
+
+/* Header */
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.details-header h1 {
+  color: #002366;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+}
+
+.service-icon {
+  font-size: 36px;
+}
+
+.back-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.back-button:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+.btn-edit {
+  background: #FF6B00;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.btn-edit:hover {
+  background: #e05d00;
+  transform: translateY(-2px);
+}
+
+/* Informations du service */
+.service-info {
+  max-width: 1200px;
+  margin: 0 auto 30px auto;
+}
+
+.info-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  color: #002366;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #FF6B00;
+}
+
+.info-item strong {
+  color: #002366;
+}
+
+/* Section équipements */
+.equipments-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.equipments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+}
+
+.equipments-header h2 {
+  color: #002366;
+  margin: 0;
+  font-size: 24px;
+}
+
+.btn-add-equipment {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.btn-add-equipment:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+/* Formulaire d'ajout d'équipement */
+.add-equipment-form {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+}
+
+.add-equipment-form h3 {
+  color: #002366;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-grid input,
+.form-grid select {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+  outline: none;
+  border-color: #FF6B00;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.btn-save {
+  background: #FF6B00;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-save:hover {
+  background: #e05d00;
+  transform: translateY(-2px);
+}
+
+/* Liste des équipements */
+.equipment-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
 }
 
 .equipment-card {
-  background: #f4f4f4;
-  padding: 20px;
-  border-radius: 10px;
-  width: 220px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: 0.2s;
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  position: relative;
 }
 
 .equipment-card:hover {
-  transform: scale(1.03);
+  transform: translateY(-5px);
 }
 
+.equipment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.equipment-header h3 {
+  color: #002366;
+  margin: 0;
+  font-size: 18px;
+}
+
+.equipment-details {
+  margin-bottom: 20px;
+}
+
+.equipment-details p {
+  margin: 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.equipment-details strong {
+  color: #002366;
+}
+
+.equipment-actions {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.btn-equipment-edit,
+.btn-equipment-delete {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.btn-equipment-edit:hover {
+  background: #fff3cd;
+}
+
+.btn-equipment-delete:hover {
+  background: #f8d7da;
+}
+
+/* Statuts */
 .status-active {
-  color: green;
+  background: #d4edda;
+  color: #155724;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
   font-weight: bold;
 }
 
 .status-inactive {
-  color: red;
+  background: #f8d7da;
+  color: #721c24;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
   font-weight: bold;
 }
 
-.btn-edit {
-  margin-top: 30px;
-  padding: 12px 25px;
-  background-color: #ff6b00;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
+/* Message si pas d'équipements */
+.no-equipment {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-.btn-edit:hover {
-  background-color: #e05d00;
+.no-equipment p:first-child {
+  font-size: 20px;
+  font-weight: bold;
+  color: #002366;
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .details-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .details-header h1 {
+    font-size: 24px;
+  }
+  
+  .equipments-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .equipment-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 }

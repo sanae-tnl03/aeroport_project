@@ -1,77 +1,335 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #002366, #004080);
+  color: white;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
 .logo-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 200px; /* ou ajuster selon besoin */
-  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 .logo {
-  width: 300px;
+  width: 200px;
   height: auto;
 }
 
-
-header {
-  display: flex;
-  flex-direction: column; /* ✅ mettre en colonne */
-  align-items: center;     /* ✅ centrer horizontalement */
-  background-color: #002366;
-  color: white;
-  padding: 15px;
-  gap: 20px;
+.header h1 {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-.services-container {
+.user-info {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  text-align: right;
+}
+
+.nav-buttons {
   display: flex;
-  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.logout-btn {
+  background: #dc3545 !important;
+}
+
+.logout-btn:hover {
+  background: #c82333 !important;
+}
+
+/* Statistiques */
+.stats-container {
+  display: flex;
   justify-content: center;
-  margin: 30px;
-  gap: 20px;
+  gap: 30px;
+  padding: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  min-width: 150px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  color: #002366;
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: bold;
+  color: #FF6B00;
+  margin: 10px 0;
+}
+
+.stat-card small {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Messages */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 18px;
+  color: #666;
+}
+
+.error-message {
+  background: #fee;
+  color: #d63384;
+  padding: 15px;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 8px;
+  border-left: 4px solid #d63384;
+  text-align: center;
+}
+
+/* Services */
+.services-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .service-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  width: 200px;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
 }
 
 .service-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  border-color: #FF6B00;
 }
 
 .service-icon {
-  font-size: 40px;
-  margin-bottom: 10px;
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.service-card h2 {
+  color: #002366;
+  margin: 15px 0 10px 0;
+  font-size: 22px;
+}
+
+.service-description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.service-card p {
+  margin: 8px 0;
+  font-size: 14px;
 }
 
 .status-active {
-  color: green;
+  color: #28a745;
   font-weight: bold;
+  background: #d4edda;
+  padding: 2px 8px;
+  border-radius: 12px;
 }
 
 .status-inactive {
-  color: red;
+  color: #dc3545;
   font-weight: bold;
+  background: #f8d7da;
+  padding: 2px 8px;
+  border-radius: 12px;
 }
 
+.equipment-count {
+  color: #6c757d;
+  font-size: 13px;
+  background: #f8f9fa;
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin-top: 10px !important;
+}
+
+/* Message si pas de services */
+.no-services {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.no-services p:first-child {
+  font-size: 24px;
+  font-weight: bold;
+  color: #002366;
+  margin-bottom: 10px;
+}
+
+/* Bouton d'ajout */
 .add-button {
   display: block;
-  margin: 30px auto;
-  padding: 15px 25px;
-  font-size: 16px;
-  background-color: #ff6b00;
+  margin: 40px auto;
+  padding: 18px 35px;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #FF6B00, #e05d00);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.3);
 }
 
 .add-button:hover {
-  background-color: #e05d00;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4);
+}
+
+/* Activités récentes */
+.recent-activities {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 30px;
+}
+
+.recent-activities h3 {
+  color: #002366;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 22px;
+}
+
+.activities-list {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item:hover {
+  background: #f8f9fa;
+}
+
+.activity-user {
+  font-weight: bold;
+  color: #002366;
+  min-width: 120px;
+}
+
+.activity-action {
+  flex: 1;
+  margin: 0 15px;
+  color: #666;
+}
+
+.activity-time {
+  font-size: 12px;
+  color: #999;
+  min-width: 140px;
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .user-info {
+    position: static;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .nav-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .stats-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+  }
+  
+  .services-container {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  
+  .activity-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .activity-time {
+    text-align: left;
+    min-width: auto;
+  }
 }

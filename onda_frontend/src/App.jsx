@@ -1,24 +1,29 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
 import ProtectedRoute from "./auth/ProtectedRoute";
 
-import Login from "./components/Login";            // ton vrai Login.jsx
-import Home from "./components/Home";              // ton Home.jsx
-import ServiceDetails from "./components/ServiceDetails"; // ton ServiceDetails.jsx
-import ServiceForm from "./components/ServiceForm";       // ton ServiceForm.jsx
-import ServiceTable from "./components/ServiceTable";     // ton ServiceTable.jsx
+import Login from "./components/Login";
+import Home from "./components/Home";
+import ServiceDetails from "./components/ServiceDetails";
+import ServiceForm from "./components/ServiceForm";
+import ServiceTable from "./components/ServiceTable";
+
+import "./App.css";
 
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          {/* Redirection de la racine vers login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          
           {/* Page Login accessible librement */}
-          <Route path="/Login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
 
           {/* Page Home protégée */}
           <Route
-            path="/Home"
+            path="/home"
             element={
               <ProtectedRoute>
                 <Home />
@@ -26,9 +31,9 @@ export default function App() {
             }
           />
 
-          {/* Détails d’un service */}
+          {/* Détails d'un service */}
           <Route
-            path="/ServiceDetails/:name"
+            path="/service/:name"
             element={
               <ProtectedRoute>
                 <ServiceDetails />
@@ -36,9 +41,19 @@ export default function App() {
             }
           />
 
-          {/* Formulaire d’ajout/modification de service */}
+          {/* Formulaire d'ajout/modification de service */}
           <Route
-            path=" D:\MGSI2\STAGE\Onda_project\onda_frontend\src\components\ServiceForm.jsx"
+            path="/service-form"
+            element={
+              <ProtectedRoute>
+                <ServiceForm />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Edition d'un service */}
+          <Route
+            path="/service-form/:id"
             element={
               <ProtectedRoute>
                 <ServiceForm />
@@ -46,18 +61,20 @@ export default function App() {
             }
           />
 
-          {/* Table des services par défaut (quand on va sur "/") */}
+          {/* Table des services */}
           <Route
-            path="/"
+            path="/services"
             element={
               <ProtectedRoute>
                 <ServiceTable />
               </ProtectedRoute>
             }
           />
+
+          {/* Route catch-all pour les pages non trouvées */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
 }
-
