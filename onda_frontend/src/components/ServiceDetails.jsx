@@ -15,6 +15,7 @@ export default function ServiceDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showAddEquipment, setShowAddEquipment] = useState(false);
+  const [editingEquipment, setEditingEquipment] = useState(null);
   const [newEquipment, setNewEquipment] = useState({
     name: '',
     ip_address: '',
@@ -53,6 +54,46 @@ export default function ServiceDetails() {
     fetchServiceDetails();
   }, [serviceId]);
 
+  // Fonction pour calculer l'état du service basé sur ses équipements
+  const calculateServiceStatus = (equipmentList) => {
+    if (!equipmentList || equipmentList.length === 0) {
+      return 'Actif'; // Par défaut si pas d'équipements
+    }
+
+    // Si au moins un équipement est inactif, le service devient inactif
+    const hasInactiveEquipment = equipmentList.some(equipment => equipment.status === 'Inactif');
+    
+    if (hasInactiveEquipment) {
+      return 'Inactif';
+    }
+
+    return 'Actif';
+  };
+
+  // Fonction pour mettre à jour l'état du service
+  const updateServiceStatus = async (equipmentList) => {
+    const newStatus = calculateServiceStatus(equipmentList);
+    
+    if (service && service.status !== newStatus) {
+      try {
+        const response = await fetch(`http://localhost:5000/api/services/${serviceId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        if (response.ok) {
+          setService(prev => ({ ...prev, status: newStatus }));
+        }
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du statut du service:', error);
+      }
+    }
+  };
+
   const handleAddEquipment = async (e) => {
     e.preventDefault();
     
@@ -77,6 +118,9 @@ export default function ServiceDetails() {
         const equipmentsData = await equipmentsResponse.json();
         setEquipments(equipmentsData);
         
+        // Mettre à jour l'état du service
+        await updateServiceStatus(equipmentsData);
+        
         // Réinitialiser le formulaire
         setNewEquipment({
           name: '',
@@ -95,6 +139,109 @@ export default function ServiceDetails() {
       console.error('Erreur:', error);
       alert('Erreur de connexion au serveur');
     }
+  };
+
+  const handleEditEquipment = (equipment) => {
+    setEditingEquipment(equipment);
+    setNewEquipment({
+      name: equipment.name,
+      ip_address: equipment.ip_address || '',
+      status: equipment.status,
+      location: equipment.location || '',
+      model: equipment.model || ''
+    });
+    setShowAddEquipment(true);
+  };
+
+  const handleUpdateEquipment = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch(`http://localhost:5000/api/equipments/${editingEquipment.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders()
+        },
+        body: JSON.stringify({
+          service_id: serviceId,
+          ...newEquipment
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Recharger les équipements
+        const equipmentsResponse = await fetch(`http://localhost:5000/api/equipments/${serviceId}`);
+        const equipmentsData = await equipmentsResponse.json();
+        setEquipments(equipmentsData);
+        
+        // Mettre à jour l'état du service
+        await updateServiceStatus(equipmentsData);
+        
+        // Réinitialiser le formulaire
+        setNewEquipment({
+          name: '',
+          ip_address: '',
+          status: 'Actif',
+          location: '',
+          model: ''
+        });
+        setEditingEquipment(null);
+        setShowAddEquipment(false);
+        
+        alert('Équipement modifié avec succès !');
+      } else {
+        alert(data.message || 'Erreur lors de la modification de l\'équipement');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur de connexion au serveur');
+    }
+  };
+
+  const handleDeleteEquipment = async (equipmentId, equipmentName) => {
+    if (!window.confirm(`Êtes-vous sûr de vouloir supprimer l'équipement "${equipmentName}" ?`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/equipments/${equipmentId}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Recharger les équipements
+        const updatedEquipments = equipments.filter(eq => eq.id !== equipmentId);
+        setEquipments(updatedEquipments);
+        
+        // Mettre à jour l'état du service
+        await updateServiceStatus(updatedEquipments);
+        
+        alert('Équipement supprimé avec succès !');
+      } else {
+        alert(data.message || 'Erreur lors de la suppression de l\'équipement');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur de connexion au serveur');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingEquipment(null);
+    setNewEquipment({
+      name: '',
+      ip_address: '',
+      status: 'Actif',
+      location: '',
+      model: ''
+    });
+    setShowAddEquipment(false);
   };
 
   const handleEditService = () => {
@@ -156,6 +303,11 @@ export default function ServiceDetails() {
               <span className={service.status === 'Actif' ? 'status-active' : 'status-inactive'}>
                 {service.status}
               </span>
+              {service.status === 'Inactif' && equipments.some(eq => eq.status === 'Inactif') && (
+                <span className="status-reason">
+                  (Équipement(s) inactif(s) détecté(s))
+                </span>
+              )}
             </div>
             <div className="info-item">
               <strong>Description :</strong> {service.description || 'Aucune description'}
@@ -180,11 +332,11 @@ export default function ServiceDetails() {
           </button>
         </div>
 
-        {/* Formulaire d'ajout d'équipement */}
+        {/* Formulaire d'ajout/modification d'équipement */}
         {showAddEquipment && (
           <div className="add-equipment-form">
-            <h3>Nouvel équipement</h3>
-            <form onSubmit={handleAddEquipment}>
+            <h3>{editingEquipment ? 'Modifier l\'équipement' : 'Nouvel équipement'}</h3>
+            <form onSubmit={editingEquipment ? handleUpdateEquipment : handleAddEquipment}>
               <div className="form-grid">
                 <input
                   type="text"
@@ -220,9 +372,16 @@ export default function ServiceDetails() {
                   className="full-width"
                 />
               </div>
-              <button type="submit" className="btn-save">
-                💾 Enregistrer l'équipement
-              </button>
+              <div className="form-actions">
+                <button type="submit" className="btn-save">
+                  💾 {editingEquipment ? 'Modifier' : 'Enregistrer'} l'équipement
+                </button>
+                {editingEquipment && (
+                  <button type="button" className="btn-cancel" onClick={handleCancelEdit}>
+                    ❌ Annuler
+                  </button>
+                )}
+              </div>
             </form>
           </div>
         )}
@@ -251,8 +410,20 @@ export default function ServiceDetails() {
                   <p><strong>Ajouté le :</strong> {new Date(equipment.created_at).toLocaleDateString()}</p>
                 </div>
                 <div className="equipment-actions">
-                  <button className="btn-equipment-edit">✏️</button>
-                  <button className="btn-equipment-delete">🗑️</button>
+                  <button 
+                    className="btn-equipment-edit"
+                    onClick={() => handleEditEquipment(equipment)}
+                    title="Modifier l'équipement"
+                  >
+                    ✏️
+                  </button>
+                  <button 
+                    className="btn-equipment-delete"
+                    onClick={() => handleDeleteEquipment(equipment.id, equipment.name)}
+                    title="Supprimer l'équipement"
+                  >
+                    🗑️
+                  </button>
                 </div>
               </div>
             ))

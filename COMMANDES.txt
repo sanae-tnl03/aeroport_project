@@ -1,0 +1,8 @@
+Dans le dossier onda_frontend : pour entrer : cd onda_frontend
+ pour runner l'app: npm run dev
+aprés cliquer sur le lien qui apparait
+  pour accéder au backend: cd onda_backend
+pour ruuner le seveur localhost: npm run dev
+et cliquer sur le lien qui apparit
+ si il y a des erreurs, vérifier le numéro de port 
+ 
